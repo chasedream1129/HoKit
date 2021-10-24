@@ -17,7 +17,7 @@ def findSkin(res):
     allCode.sort()
     codeStr = ""
     for code in allCode:
-        codeStr += code+"\n"
+        codeStr += f"{code}\n"
     return codeStr
 
 
@@ -86,5 +86,5 @@ if len(argv) == 3:
 else:
     print("usage: HoK_ResLister.py dbPath writePath")
     ver = input("version:")
-    main("/data/data/com.tencent.tmgp.sgame"+ver+"/files/QtsVFSCache/exportdata/ResEntriesDB.db",
+    main(f"/data/data/com.tencent.tmgp.sgame{ver}/files/QtsVFSCache/exportdata/ResEntriesDB.db",
          "/storage/emulated/0/git/Sga-M-E/list/ResEntriesDB.txt")

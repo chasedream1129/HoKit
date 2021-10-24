@@ -29,8 +29,8 @@ def getDiffDir():
 def getDiffFileList(path):
     fileList = []
     for name in os.listdir(path):
-        if os.path.getsize(path+"/"+name) > 327679:
-            filePath = path + "/"+name
+        if os.path.getsize(f"{path}/{name}") > 327679:
+            filePath = f"{path}/{name}"
             fileList.append(filePath)
     return fileList
 
@@ -66,14 +66,7 @@ def writeList(qtsfList, path):
     if len(writeStr) > 0:
         with open(path, "wb") as f:
             f.write(writeStr)
-            print("Parsed "+path)
-
-
-def createInfo(fileName, qtsfList, path):
-    info = {
-        "edition": "",
-        "noticeUrl": "请填写更新公告链接"
-    }
+            print("Parsed {path}")
 
 
 def main():
@@ -81,11 +74,11 @@ def main():
         os.makedirs("/sdcard/HoK/diff/")
     date = getDate()
     diffPath = getDiffDir()
-    toPath = "/sdcard/HoK/diff/" + date + "/db"
+    toPath = "/sdcard/HoK/diff/{date}/db"
     print("Copying...")
     copyDir(diffPath, toPath)
     diffList = getDiffFileList(toPath)
-    os.makedirs("/sdcard/HoK/diff/" + date + "/list")
+    os.makedirs("/sdcard/HoK/diff/{date}/list")
     dictData = {}
     print("Parsing...")
     for path in diffList:

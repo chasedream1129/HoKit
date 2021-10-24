@@ -1,3 +1,4 @@
+# only tested in arrch64 Android device(root).
 import os
 import re
 import struct
@@ -29,12 +30,12 @@ def getSgamePid():
     for i in psMsg:
         if re.search(psPattern, i) != None:
             pid = re.split(r"[ ]+", i)[1]
-            print("Pid="+pid)
+            print(f"Pid={pid}")
     return pid
 
 
 def getIndexAdd():
-    with open("/proc/"+pid+"/maps", "r") as f:
+    with open(f"/proc/{pid}/maps", "r") as f:
         mapMsg = f.read().splitlines()
     for i in range(len(mapMsg)):
         if "libGameCore" in mapMsg[i] and "rw-p" in mapMsg[i]:
@@ -45,8 +46,7 @@ def getIndexAdd():
                 pointerAdd = int(pointerAdd.split("-")[0], 16)
                 addOffset = getPointerOffset(bssStart, bssEnd)
                 pointerAdd += addOffset
-                print("pointerAdd="+hex(pointerAdd) +
-                      "\naddOffset="+hex(addOffset))
+                print(f"pointerAdd={hex(pointerAdd)}\naddOffset={hex(addOffset)}")
     try:
         return pointerAdd
     except UnboundLocalError:
@@ -55,13 +55,12 @@ def getIndexAdd():
 
 
 def getMemData(start, end):
-    with open("/proc/"+pid+"/mem", 'rb', 0) as mem:
+    with open(f"/proc/{pid}/mem", 'rb', 0) as mem:
         mem.seek(start)
-        memData = mem.read(end-start)
-    try:
-        return memData
-    except BaseException:
-        print("内存获取失败")
+        try:
+            return mem.read(end-start)
+        except BaseException:
+            print("内存获取失败")
 
 
 def getPointerOffset(bssStart, bssEnd):
@@ -134,16 +133,14 @@ def main():
     print("Geting Data")
     textData = b''
     for i in adds:
-        textStart = i["start"]
-        textEnd = i["end"]
-        data = getMemData(textStart, textEnd)
+        data = getMemData(i["start"], i["end"])
         textData += data
     print("Get Data Done")
     textList = parseTextData(textData)
     print("Writing")
     with open("/storage/emulated/0/git/Sga-M-E/list/textDumped.txt", "w")as f:
         for i in textList:
-            f.write("⊙"+i+"∅\n")
+            f.write(f"⊙{i}∅\n")
 
 
 print("=====Running=====")

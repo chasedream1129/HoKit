@@ -140,12 +140,10 @@ def main():
         textData += data
     print("Get Data Done")
     textList = parseTextData(textData)
-    textStr = ""
     print("Writing")
-    for i in textList:
-        textStr += "⊙"+i+"∅\n"
     with open("/storage/emulated/0/git/Sga-M-E/list/textDumped.txt", "w")as f:
-        f.write(textStr)
+        for i in textList:
+            f.write("⊙"+i+"∅\n")
 
 
 print("=====Running=====")

@@ -66,7 +66,7 @@ def writeList(qtsfList, path):
     if len(writeStr) > 0:
         with open(path, "wb") as f:
             f.write(writeStr)
-            print("Parsed {path}")
+            print(f"Parsed {path}")
 
 
 def main():
@@ -74,11 +74,11 @@ def main():
         os.makedirs("/sdcard/HoK/diff/")
     date = getDate()
     diffPath = getDiffDir()
-    toPath = "/sdcard/HoK/diff/{date}/db"
+    toPath = f"/sdcard/HoK/diff/{date}/db"
     print("Copying...")
     copyDir(diffPath, toPath)
     diffList = getDiffFileList(toPath)
-    os.makedirs("/sdcard/HoK/diff/{date}/list")
+    os.makedirs(f"/sdcard/HoK/diff/{date}/list")
     dictData = {}
     print("Parsing...")
     for path in diffList:
